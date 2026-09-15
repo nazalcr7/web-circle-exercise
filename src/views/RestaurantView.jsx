@@ -13,10 +13,10 @@ const RestaurantView = () => {
   // the number of milliseconds it should wait until it is actually called so a user
   // can type freely and as long as they are typing a letter quicker than 500ms, the function won't fire yet.
   // This is to optimize user experience and communication with the server
-  const debouncedEffectHook = useDebouncedCallback(() => {
+  const debouncedEffectHook = useDebouncedCallback((searchTerm) => {
     let currentEffect = true;
     fetch(
-      `https://www.themealdb.com/api/json/v1/1/search.php?s=`
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`
     ).then(res => {
       if (!res.ok) {
         return { meals: null };
@@ -56,7 +56,7 @@ const RestaurantView = () => {
       <NavBar>
         <h1>ReDI React Restaurant</h1>
 
-        <SearchField />
+        <SearchField onSearch={debouncedEffectHook} />
       </NavBar>
 
       <div className={styles.restaurantWrapper}>
